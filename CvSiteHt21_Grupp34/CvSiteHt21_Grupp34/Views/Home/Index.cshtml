@@ -1,0 +1,104 @@
+﻿@using CvSiteHt21_Grupp34.Models
+@using Data
+@using Data.Models
+@model Shared.ViewModels.HomeViewModel
+
+@{ ViewBag.Title = "Home Page"; }
+
+<div class="jumbotron">
+    <h1>Welcome to your CvSite</h1>
+
+    <h3>Latest created projects</h3>
+
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        @using (var context = new ApplicationDbContext())
+        {
+
+            var lastProject = context.GetProjects.ToList();
+
+            if (lastProject.Count != 0)
+            {
+                var proj = lastProject.Last();
+                <tr>
+                    <td>@proj.Title</td>
+                    <td>@proj.Description</td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Join Project", "Join", "Project", new { id = proj.ProjectId}, null)}
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>No project has been added</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div class="jumbotron">
+    <h3>Selected Cvs</h3>
+    <table class="table">
+        <tr>
+            <th>
+                User
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        @using (var context = new ApplicationDbContext())
+        {
+
+            var startCV = context.GetCvs.ToList();
+
+            if (startCV.Count == 0)
+            {
+            <tr>
+                <td>No Cv has been added</td>
+                <td></td>
+            </tr>
+            }
+
+                foreach (Cv c in startCV)
+                {
+
+                    if (User.Identity.IsAuthenticated)
+                    {
+                    <tr>
+                        <td> @c.User.Fullname</td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Cv", new { id = c.UserId }, null)
+                        </td>
+                    </tr>
+                    }
+                    if (c.User.IsPrivate == false && ViewBag.ID == null)
+                    {
+                    <tr>
+                        <td> @c.User.Fullname</td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Cv", new { id = c.UserId }, null)
+                        </td>
+                    </tr>
+                    }
+                }
+            }
+    </table>
+</div>
+

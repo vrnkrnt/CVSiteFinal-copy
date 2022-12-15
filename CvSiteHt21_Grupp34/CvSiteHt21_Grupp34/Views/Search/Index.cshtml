@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Data.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Search User</h2>
+
+@using (Html.BeginForm("Search", "Search", FormMethod.Get))
+{
+    @Html.TextBox("Name")
+    <button type="submit">Search</button>}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Fullname
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td>No users found</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            if (ViewBag.ID != null)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fullname)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Show Cv", "Details", "Cv", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+            if (ViewBag.ID == null && item.IsPrivate == false)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fullname)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Show Cv", "Details", "Cv", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        }
+    }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+﻿@using Data
+@model Shared.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>User info: </h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <p>@Html.DisplayNameFor(model => model.Fullname): @Html.DisplayFor(model => model.Fullname) </p>
+        <p>@Html.DisplayNameFor(model => model.City): @Html.DisplayFor(model => model.City)</p>
+        <p>@Html.DisplayNameFor(model => model.Email): @Html.DisplayFor(model => model.Email)</p>
+
+        @if (Model.IsPrivate == false)
+        {
+            <p>Private: Yes</p>
+
+        }
+        @if (Model.IsPrivate == true)
+        {
+            <p>Private: No</p>
+
+        }
+
+        <p>@Html.ActionLink("Update info", "UserEdit", new { @Model.Id })</p>
+        <p>@Html.ActionLink("Change password", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</p>
+
+    </div>
+</div>

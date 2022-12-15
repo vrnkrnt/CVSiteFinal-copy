@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Data.Models.Cv>
+@using Data
+@using Microsoft.AspNet.Identity
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Cvs</h2>
+<br />
+
+
+@{bool hasCv = false;
+    foreach (var cv in Model)
+    {
+        if (cv.User.Id == User.Identity.GetUserId())
+        {
+            hasCv = true;
+        }
+    }
+}
+
+@if (User.Identity.IsAuthenticated && !hasCv)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Fullname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Competence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Experience)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Education)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var userId = User.Identity.GetUserId();
+        if (User.Identity.IsAuthenticated || item.User.IsPrivate == false)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Competence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Experience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Education)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
+                </td>
+                @if (userId == item.User.Id)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+                    </td>
+                }
+
+            </tr>
+        }
+    }
+
+</table>
+

@@ -1,0 +1,87 @@
+﻿@model Shared.ViewModels.CvViewModel
+@using System.Diagnostics
+@using Data.Models
+@using Data
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+
+}
+
+<div style="padding-left: 6%">
+    <br/>
+    <h2>Cv details for: @Model.Username</h2>
+    <hr/>
+    <img src="@Model.ImageUrl" alt="Profile image" width="300" ;/>
+    <br/>
+    <br/>
+
+    <dl class="dl-horizontal">
+        <dt style="text-align: left !important">
+            @Html.DisplayNameFor(model => model.User.Fullname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt style="text-align: left !important">
+            @Html.DisplayNameFor(model => model.Competence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Competence)
+        </dd>
+
+        <dt style="text-align: left !important">
+            @Html.DisplayNameFor(model => model.Education)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Education)
+        </dd>
+
+        <dt style="text-align: left !important">
+            @Html.DisplayNameFor(model => model.Experience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Experience)
+        </dd>
+        <dt style="text-align: left !important">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<h3 style="padding-left: 6%">Projects: </h3>
+<table class="table">
+    <tr>
+        <th style="padding-left: 6%">
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+    </tr>
+    @foreach (var item in Model.Projects)
+    {
+        <tr>
+            <td style="padding-left: 6%">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+        </tr>
+    }
+</table>
+<div style="padding-left: -6%">
+    @{ Html.RenderAction("Create", "Message", new {id = ViewBag.Id}); }
+
+</div>
